@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
       ORG               = 'bygui86'
-      APP_NAME          = 'awsomeapp'
+      APP_NAME          = 'producer-service'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
     stages {
@@ -50,7 +50,7 @@ pipeline {
             sh "echo \$(jx-release-version) > VERSION"
             sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
           }
-          dir ('./charts/awsomeapp') {
+          dir ('./charts/producer-service') {
             container('maven') {
               sh "make tag"
             }
@@ -70,7 +70,7 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('./charts/awsomeapp') {
+          dir ('./charts/producer-service') {
             container('maven') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
